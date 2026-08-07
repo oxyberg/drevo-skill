@@ -1,0 +1,11 @@
+# Preserve GEDCOM line endings and exact evidence bytes.
+family-tree.ged text eol=crlf
+research/evidence/webpages/** -text
+research/evidence/webpages/** -whitespace
+*.jpg -text
+*.jpeg -text
+*.png -text
+*.pdf -text
+*.warc -text
+*.gz -text
+
