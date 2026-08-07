@@ -1,9 +1,9 @@
 ---
 name: drevo
-description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is asked to start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, preserve and cite family or archival sources, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
+description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is explicitly asked to use «Древо», start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, preserve and cite family or archival sources, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
 ---
 
-# Drevo
+# Древо
 
 Вести локальный генеалогический проект как доказательное исследование: отделять дерево от гипотез, сохранять происхождение каждого факта и минимизировать данные потенциально живых людей.
 
@@ -67,4 +67,3 @@ python3 <путь-к-скиллу>/scripts/verify_checksums.py research/evidence
 - что изменено или сознательно не изменено в GEDCOM;
 - какие проверки выполнены;
 - какой следующий шаг остаётся допустимым.
-
