@@ -13,7 +13,7 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 2. Для нового проекта прочитать [project-layout.md](references/project-layout.md), затем запустить `scripts/init_project.py <каталог>`. Не инициализировать Git, не добавлять remote и не публиковать проект без прямого указания пользователя.
 3. Для импорта существующего GEDCOM сначала сохранить его неизменной справочной копией в `references/`, выбрать один канонический `family-tree.ged` и провести аудит. Не создавать два рабочих дерева.
 4. Перед любым действием с конкретным человеком прочитать [privacy-and-people.md](references/privacy-and-people.md). Перед исследованием или оценкой источника также прочитать [evidence-and-identification.md](references/evidence-and-identification.md).
-5. Перед получением архивных изображений выбрать способ по [archive-access-modes.md](references/archive-access-modes.md). Для пакетного сохранения из просмотрщика дополнительно прочитать [archival-image-capture.md](references/archival-image-capture.md). Перед OCR, палеографическим чтением или расшифровкой прочитать [paleographic-transcription.md](references/paleographic-transcription.md).
+5. Перед получением архивных изображений выбрать способ по [archive-access-modes.md](references/archive-access-modes.md). Для пакетного сохранения из просмотрщика дополнительно прочитать [archival-image-capture.md](references/archival-image-capture.md). Перед подготовкой производных изображений и OCR прочитать [image-processing-tools.md](references/image-processing-tools.md), перед палеографическим чтением или расшифровкой — [paleographic-transcription.md](references/paleographic-transcription.md).
 
 ## Соблюдать обязательные границы
 
@@ -43,7 +43,7 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 - OCR использовать только для навигации. Каждое совпадение проверять по изображению; отсутствие совпадения не считать доказательством отсутствия записи.
 - Исходные изображения не перезаписывать. Сборки, контрастирование, разделение страниц, OCR и контактные листы хранить как производные файлы с описанием преобразований и собственными контрольными суммами.
 
-Для нового пакета фиксации использовать `scripts/init_capture_package.py`, состояние обновлять через `scripts/update_capture_state.py`, после получения файлов запускать `scripts/audit_capture_package.py`. Если кадры снабжены точными координатами, собирать их через `scripts/assemble_capture_tiles.py`, не изменяя исходники.
+Для нового пакета фиксации использовать `scripts/init_capture_package.py`, состояние обновлять через `scripts/update_capture_state.py`, после получения файлов запускать `scripts/audit_capture_package.py`. Если кадры снабжены точными координатами, собирать их через `scripts/assemble_capture_tiles.py`, не изменяя исходники. Официальный публичный файл разрешается получить через `scripts/fetch_archive_file.py`. Для чтения использовать детерминированные производные, полосы, контактные листы и локальный OCR из [image-processing-tools.md](references/image-processing-tools.md); созданные ими манифесты сохранять вместе с результатами.
 
 ## Изменять GEDCOM аккуратно
 
