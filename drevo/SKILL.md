@@ -1,6 +1,6 @@
 ---
 name: drevo
-description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is explicitly asked to use «Древо», start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, preserve and cite family or archival sources, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
+description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is explicitly asked to use «Древо», start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, preserve, download, capture, transcribe, or cite family and archival sources or scans, work with a paid or time-limited archival viewer, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
 ---
 
 # Древо
@@ -13,6 +13,7 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 2. Для нового проекта прочитать [project-layout.md](references/project-layout.md), затем запустить `scripts/init_project.py <каталог>`. Не инициализировать Git, не добавлять remote и не публиковать проект без прямого указания пользователя.
 3. Для импорта существующего GEDCOM сначала сохранить его неизменной справочной копией в `references/`, выбрать один канонический `family-tree.ged` и провести аудит. Не создавать два рабочих дерева.
 4. Перед любым действием с конкретным человеком прочитать [privacy-and-people.md](references/privacy-and-people.md). Перед исследованием или оценкой источника также прочитать [evidence-and-identification.md](references/evidence-and-identification.md).
+5. Перед получением архивных изображений выбрать способ по [archive-access-modes.md](references/archive-access-modes.md). Для пакетного сохранения из просмотрщика дополнительно прочитать [archival-image-capture.md](references/archival-image-capture.md). Перед OCR, палеографическим чтением или расшифровкой прочитать [paleographic-transcription.md](references/paleographic-transcription.md).
 
 ## Соблюдать обязательные границы
 
@@ -32,6 +33,17 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 6. Присвоить каждому утверждению статус по [evidence-and-identification.md](references/evidence-and-identification.md). Связь родитель–ребёнок оценивать как самостоятельный факт.
 7. Внести в `family-tree.ged` только `CONFIRMED`. Остальное оставить в журнале, отчёте или списке конфликтов.
 8. После результата обновить журнал. Обновить стратегию только если изменились приоритет, статус гипотезы, ограничение или допустимый следующий шаг.
+
+## Сохранять и читать архивные изображения воспроизводимо
+
+- При ограниченном или платном доступе сначала подготовить план полной фиксации, проверить объём, место на диске, фактический масштаб и возможность возобновления. Не подтверждать покупку или оплату без прямого указания пользователя.
+- Различать исходный файл архива, сохранённый кадр просмотрщика, собранное изображение, обработанную копию, OCR и ручную расшифровку. Не называть кадр просмотрщика архивным оригиналом.
+- Для содержательного поиска сохранять непрерывный диапазон. Разреженную выборку использовать только как навигационный индекс и не выдавать за полную проверку дела.
+- Хранить отдельно позицию просмотрщика, имя цифрового файла, архивный лист и оборот. Не выводить одно соответствие из другого без видимой нумерации или другого основания.
+- OCR использовать только для навигации. Каждое совпадение проверять по изображению; отсутствие совпадения не считать доказательством отсутствия записи.
+- Исходные изображения не перезаписывать. Сборки, контрастирование, разделение страниц, OCR и контактные листы хранить как производные файлы с описанием преобразований и собственными контрольными суммами.
+
+Для нового пакета фиксации использовать `scripts/init_capture_package.py`, состояние обновлять через `scripts/update_capture_state.py`, после получения файлов запускать `scripts/audit_capture_package.py`. Если кадры снабжены точными координатами, собирать их через `scripts/assemble_capture_tiles.py`, не изменяя исходники.
 
 ## Изменять GEDCOM аккуратно
 
