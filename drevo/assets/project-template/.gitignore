@@ -5,3 +5,9 @@
 node_modules/
 viewer/.cache/
 
+# Полные архивные пакеты по умолчанию хранятся вне Git.
+research/evidence/documents/**/исходные-кадры/
+research/evidence/documents/**/собранные-изображения/
+research/evidence/documents/**/производные/
+research/evidence/documents/**/контроль/
+research/evidence/documents/cold-storage.local

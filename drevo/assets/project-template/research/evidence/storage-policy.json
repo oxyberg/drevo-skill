@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "mode": "minimal",
+  "max_staged_file_mib": 10,
+  "max_staged_total_mib": 50,
+  "max_staged_evidence_payload_files": 25
+}

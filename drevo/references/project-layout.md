@@ -21,7 +21,8 @@ references/                     старые экспорты и справоч�
 research/research-log.md        хронологический журнал поиска
 research/conflicts.md           открытые и разрешённые противоречия
 research/strategy.md            текущие цели, ограничения и следующие шаги
-research/evidence/documents/    неизменённые документы
+research/evidence/storage-policy.json политика объёма данных в Git
+research/evidence/documents/    минимальные доказательные фрагменты и индекс холодного хранилища
 research/evidence/transcriptions/ расшифровки
 research/evidence/webpages/     архивные пакеты веб-страниц
 research/reports/               доказательные выводы
