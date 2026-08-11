@@ -62,7 +62,11 @@ def parse_args() -> argparse.Namespace:
         help="Ancestor depth for --root, from 1 through 12 (default: 6)",
     )
     parser.add_argument("--output", required=True, help="Markdown report path")
-    parser.add_argument("--title", help="Report title without the Markdown marker")
+    parser.add_argument(
+        "--title",
+        required=True,
+        help="specific report title, for example 'Аудит доказательств ветви Ивановых'",
+    )
     parser.add_argument(
         "--template",
         default=str(DEFAULT_TEMPLATE),
@@ -149,11 +153,11 @@ def display_person(
 ) -> str:
     record = records.get(xref)
     if record is None or record.kind != "INDI":
-        return f"{xref} [не найден]"
+        return f"[не найден] ({xref})"
     if potentially_living(record, current_year) and not include_potentially_living:
-        return f"{xref} [имя скрыто]"
+        return f"[имя скрыто] ({xref})"
     names = record.fields.get("NAME", [])
-    return f"{xref} {clean_name(names[0]) if names else '[без имени]'}"
+    return f"{clean_name(names[0]) if names else '[без имени]'} ({xref})"
 
 
 def parent_links(
@@ -275,18 +279,6 @@ def explicit_path_scope(
     return transitions, summary
 
 
-def generation_table(summary: list[tuple[int, int, int, int]]) -> str:
-    lines = [
-        "| Поколение | Мест | Заполнено | Уникальных персон | Пробелов |",
-        "|---:|---:|---:|---:|---:|",
-    ]
-    for generation, slots, linked, unique in summary:
-        lines.append(
-            f"| {generation} | {slots} | {linked} | {unique} | {slots - linked} |"
-        )
-    return "\n".join(lines)
-
-
 def transition_table(
     transitions: list[Transition],
     records: dict[str, Record],
@@ -294,8 +286,8 @@ def transition_table(
     current_year: int,
 ) -> str:
     lines = [
-        "| Поколение родителя | Ребёнок → родитель | Роль и семья | Источники-кандидаты | Автоматическая проверка | Статус | Что требуется |",
-        "|---:|---|---|---|---|---|---|",
+        "| Переход | Что имеется | Статус | Что требуется |",
+        "|---|---|---|---|",
     ]
     for item in transitions:
         child_record = records[item.child]
@@ -305,14 +297,20 @@ def transition_table(
         child = display_person(item.child, records, include_potentially_living, current_year)
         parent = display_person(item.parent, records, include_potentially_living, current_year)
         sources = source_candidates(item, records, child_hidden or parent_hidden)
-        automatic = "есть кандидаты; прочитать содержание" if sources != "—" else "источник связи в GEDCOM не найден"
+        role = item.role.split(" / ", 1)[-1]
+        available = f"Семья `{item.family}` в GEDCOM; роль: {role}; "
+        available += (
+            f"кандидаты `SOUR`: {sources}. Проверить, подтверждают ли они именно родство"
+            if sources != "—"
+            else "источник связи в GEDCOM не указан"
+        )
         lines.append(
-            f"| {item.generation} | {escape_cell(child)} → {escape_cell(parent)} | "
-            f"{escape_cell(item.role)}; `{item.family}` | {sources} | {automatic} | "
-            "`НЕ ОЦЕНЁН` | [минимально достаточный источник или проверка] |"
+            f"| {escape_cell(child)} → {escape_cell(parent)} | "
+            f"{available} | `НЕ ОЦЕНЁН` | "
+            "[минимально достаточный источник или проверка] |"
         )
     if not transitions:
-        lines.append("| — | — | — | — | переходы не найдены | `НЕ ОЦЕНЁН` | проверить структуру дерева |")
+        lines.append("| — | Переходы не найдены | `НЕ ОЦЕНЁН` | Проверить структуру дерева |")
     return "\n".join(lines)
 
 
@@ -327,6 +325,7 @@ def render_report(args: argparse.Namespace, records: dict[str, Record]) -> str:
         transitions, summary = all_ancestor_scope(root, args.generations, records)
         mode = "все предки"
         depth = str(args.generations)
+        line_heading = "Проверка каждого звена"
     else:
         path = [item.strip() for item in args.path.split(",") if item.strip()]
         if len(path) < 2:
@@ -338,6 +337,7 @@ def render_report(args: argparse.Namespace, records: dict[str, Record]) -> str:
         root = path[0]
         mode = "выбранная прямая линия"
         depth = str(len(path) - 1)
+        line_heading = "Проверка прямой линии"
 
     missing = sum(slots - linked for _, slots, linked, _ in summary[1:])
     first_gap = next(
@@ -360,22 +360,21 @@ def render_report(args: argparse.Namespace, records: dict[str, Record]) -> str:
         raise ValueError(f"cannot read template: {exc}") from exc
 
     privacy = (
-        "имена потенциально живых включены для приватного локального отчёта"
+        "имена потенциально живых включены в приватный локальный черновик"
         if args.include_potentially_living
         else "имена потенциально живых скрыты"
     )
-    title = args.title or "Аудит поколений"
+    title = args.title
+    assembly_note = (
+        "<!-- Служебные данные сборщика; удалить после содержательной проверки. "
+        f"Исходная персона: {display_person(root, records, args.include_potentially_living, current_year)}. "
+        f"Режим: {mode}; глубина: {depth}; {privacy}. {automatic_summary} -->"
+    )
     replacements = {
         "{{TITLE}}": title,
         "{{DATE}}": date.today().isoformat(),
-        "{{ROOT}}": display_person(
-            root, records, args.include_potentially_living, current_year
-        ),
-        "{{MODE}}": mode,
-        "{{DEPTH}}": depth,
-        "{{PRIVACY}}": privacy,
-        "{{AUTOMATIC_SUMMARY}}": automatic_summary,
-        "{{GENERATION_TABLE}}": generation_table(summary),
+        "{{ASSEMBLY_NOTE}}": assembly_note,
+        "{{LINE_HEADING}}": line_heading,
         "{{TRANSITION_TABLE}}": transition_table(
             transitions, records, args.include_potentially_living, current_year
         ),
