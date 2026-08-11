@@ -26,6 +26,7 @@ research/evidence/documents/    минимальные доказательны�
 research/evidence/transcriptions/ расшифровки
 research/evidence/webpages/     архивные пакеты веб-страниц
 research/reports/               доказательные выводы
+research/reports/generation-audit.template.md шаблон аудита поколений
 research/requests/              проекты архивной переписки
 ```
 

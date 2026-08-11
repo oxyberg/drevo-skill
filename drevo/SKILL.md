@@ -1,6 +1,6 @@
 ---
 name: drevo
-description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is explicitly asked to use «Древо», start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, preserve, download, capture, transcribe, or cite family and archival sources or scans, work with a paid or time-limited archival viewer, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
+description: Create, organize, audit, research, and maintain private evidence-based family tree projects centered on one canonical GEDCOM 5.5.1 file. Use when Codex is explicitly asked to use «Древо», start a genealogy repository, import or inspect GEDCOM, investigate an ancestor, audit generations or a lineage, preserve, download, capture, transcribe, or cite family and archival sources or scans, work with a paid or time-limited archival viewer, resolve conflicting identities or dates, add confirmed relatives or biographical facts, validate family links, prepare an archival request, or work on a «генеалогическое древо», «семейное древо», «родословная» or genealogy project while protecting living people.
 ---
 
 # Древо
@@ -34,6 +34,12 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 7. Внести в `family-tree.ged` только `CONFIRMED`. Остальное оставить в журнале, отчёте или списке конфликтов.
 8. После результата обновить журнал. Обновить стратегию только если изменились приоритет, статус гипотезы, ограничение или допустимый следующий шаг.
 
+## Аудировать поколения
+
+- Для проверки прямой линии или всех предков выбранного человека прочитать [generation-audit.md](references/generation-audit.md) и собрать единый черновик через `scripts/assemble_generation_audit.py`.
+- Считать автоматически найденные `SOUR` только кандидатами для чтения. Оценивать каждый переход родитель–ребёнок отдельно и не присваивать `CONFIRMED` по одной структуре GEDCOM.
+- В итоговом аудите разделять доказательную непрерывность, боковые признаки, конфликты и техническую целостность; первым приоритетом называть ближайший неподтверждённый переход.
+
 ## Ускорять поиск в больших массивах
 
 - Если большой массив сканов, страниц или записей упорядочен по дате, номеру, алфавиту или другому признаку, сначала применять бисекцию: проверять середину, отбрасывать заведомо неподходящую половину и повторять до узкого диапазона.
@@ -44,7 +50,7 @@ description: Create, organize, audit, research, and maintain private evidence-ba
 
 - Для многих итераций одного исследовательского вопроса вести один обновляемый Markdown-файл с охватом, ходом работы и итогами. Не создавать отдельный `.md` для каждого прохода, батча, кадра или промежуточной попытки.
 - Пакетную расшифровку одного дела или непрерывного диапазона хранить в одном `.md` с секциями по файлам, позициям, листам или этапам.
-- Создавать несколько исседовательских Markdown-файлов только при семантическом разделении: другой вопрос, самостоятельный документ с отдельным происхождением, другая персона или ветвь, иной режим доступа или независимо цитируемая единица.
+- Создавать несколько исследовательских Markdown-файлов только при семантическом разделении: другой вопрос, самостоятельный документ с отдельным происхождением, другая персона или ветвь, иной режим доступа или независимо цитируемая единица.
 
 ## Сохранять и читать архивные изображения воспроизводимо
 
